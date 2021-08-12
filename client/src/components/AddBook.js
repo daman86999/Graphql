@@ -13,6 +13,18 @@ function AddBookList() {
   if (loading) return 'Submitting...';
   if (error) return `Submission error! ${error.message}`;
 
+  function SubmitButton() {
+    if (bookName && genre && authorName) {
+      return <button type="submit">Add Book</button>;
+    } else {
+      return (
+        <button type="submit" disabled>
+          Add Book
+        </button>
+      );
+    }
+  }
+
   return (
     <form
       onSubmit={(e) => {
@@ -20,6 +32,9 @@ function AddBookList() {
         AddBook({
           variables: { name: bookName, Genre: genre, AuthorName: authorName },
         });
+        setBookName(null);
+        setAuthorName(null);
+        setGenre(null);
       }}
       style={{
         margin: '50px auto',
@@ -55,7 +70,7 @@ function AddBookList() {
           }}
         />
       </div>
-      <button>Add Book</button>
+      <SubmitButton />
     </form>
   );
 }

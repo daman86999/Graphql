@@ -43,7 +43,7 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <div id="main">
-          <h1 style={{ textAlign: 'center', padding: '25px' }}>Reading List</h1>
+          <h1 style={{ textAlign: 'center', padding: '15px' }}>Reading List</h1>
           <DataTable />
           <AddBookList />
           <LatestBooks />
