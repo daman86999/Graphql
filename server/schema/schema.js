@@ -1,6 +1,7 @@
 const graphql = require('graphql');
 const Book = require('../models/book');
 const _ = require('lodash');
+const { PubSub } = require('graphql-subscriptions');
 
 const {
   GraphQLObjectType,
@@ -11,6 +12,8 @@ const {
   GraphQLList,
   GraphQLNonNull,
 } = graphql;
+
+const pubsub = new PubSub();
 
 const BookType = new GraphQLObjectType({
   name: 'Book',
@@ -59,8 +62,20 @@ const Mutation = new GraphQLObjectType({
           genre: args.genre,
           authorName: args.authorName,
         });
+        pubsub.publish('BOOK_ADDED', { book });
         return book.save();
       },
+    },
+  },
+});
+
+const Subscription = new GraphQLObjectType({
+  name: 'Subscription',
+  fields: {
+    bookAdded: {
+      type: BookType,
+      resolve: (payload) => payload.book,
+      subscribe: () => pubsub.asyncIterator('BOOK_ADDED'),
     },
   },
 });
@@ -68,4 +83,5 @@ const Mutation = new GraphQLObjectType({
 module.exports = new GraphQLSchema({
   query: RootQuery,
   mutation: Mutation,
+  subscription: Subscription,
 });
