@@ -20,3 +20,11 @@ export const ADD_BOOK = gql`
     }
   }
 `;
+
+export const ON_BOOK_ADD = gql`
+  subscription BookAdded {
+    bookAdded {
+      name
+    }
+  }
+`;

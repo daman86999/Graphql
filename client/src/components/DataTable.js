@@ -42,6 +42,7 @@ import { GET_BOOKS } from '../queries/queries';
 function DataTable() {
   const { loading, error, data, refetch, networkStatus } = useQuery(GET_BOOKS, {
     // pollInterval: 500,
+    fetchPolicy: 'cache-and-network',
   });
   console.log(data);
   if (networkStatus === NetworkStatus.refetch) return 'Refetching!';
