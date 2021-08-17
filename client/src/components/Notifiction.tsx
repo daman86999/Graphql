@@ -3,8 +3,15 @@ import { useSubscription } from '@apollo/client';
 import { ON_BOOK_ADD } from '../queries/queries';
 import { useState, useEffect } from 'react';
 
+interface Name {
+  name: string;
+}
+interface BookNotification {
+  bookAdded: Name;
+}
+
 const Message: React.FC = () => {
-  const { data } = useSubscription(ON_BOOK_ADD);
+  const { data } = useSubscription<BookNotification>(ON_BOOK_ADD);
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {

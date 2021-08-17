@@ -3,13 +3,22 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { GET_BOOKS, ADD_BOOK } from '../queries/queries';
 
+interface NewBook {
+  name: string;
+  Genre: string;
+  AuthorName: string;
+}
+
 function AddBookList(): JSX.Element {
   const [bookName, setBookName] = useState<string | undefined>();
   const [genre, setGenre] = useState<string | undefined>();
   const [authorName, setAuthorName] = useState<string | undefined>();
-  const [AddBook, { loading, error }] = useMutation(ADD_BOOK, {
-    refetchQueries: [GET_BOOKS],
-  });
+  const [AddBook, { loading, error }] = useMutation<{ AddBook: NewBook }>(
+    ADD_BOOK,
+    {
+      refetchQueries: [GET_BOOKS],
+    }
+  );
   if (loading) return <p>Submitting...</p>;
   if (error) return <p>{`Submission error! ${error.message}`}</p>;
 
